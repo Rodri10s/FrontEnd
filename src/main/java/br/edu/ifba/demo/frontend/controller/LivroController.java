@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-
 @Controller
 @RequestMapping("/livros")
 public class LivroController {
-    
+
     @Autowired
     private LivroService livroService;
 
@@ -31,7 +30,7 @@ public class LivroController {
     }
 
     @PostMapping("/")
-    public ModelAndView  salvarLivro(@ModelAttribute("livro") LivroDTO livroDTO) {
+    public ModelAndView salvarLivro(@ModelAttribute("livro") LivroDTO livroDTO) {
         System.out.println(livroDTO);
         livroService.salvarOuAtualizar(livroDTO);
         ModelAndView mv = new ModelAndView("redirect:/livros/");
@@ -46,14 +45,14 @@ public class LivroController {
     }
 
     @GetMapping("/novo")
-    public ModelAndView  novoLivro() {
+    public ModelAndView novoLivro() {
         ModelAndView mv = new ModelAndView("livros/form");
         mv.addObject("livro", new LivroDTO());
         return mv;
     }
 
     @GetMapping("/view/{id}")
-    public ModelAndView  exibirLivro(@PathVariable("id") Long id) {
+    public ModelAndView exibirLivro(@PathVariable("id") Long id) {
         LivroDTO livro = livroService.getById(id);
         ModelAndView mv = new ModelAndView("livros/form");
         mv.addObject("livro", livro);
@@ -62,7 +61,7 @@ public class LivroController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView  editarLivro(@PathVariable("id") Long id) {
+    public ModelAndView editarLivro(@PathVariable("id") Long id) {
         LivroDTO livro = livroService.getById(id);
         ModelAndView mv = new ModelAndView("livros/form");
         mv.addObject("livro", livro);
