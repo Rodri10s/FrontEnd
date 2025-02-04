@@ -15,10 +15,14 @@ public class LivroService {
     @Autowired
     private WebClient webClient;
 
+    public LivroService(WebClient.Builder webClientBuilder) {
+        this.webClient = webClientBuilder.baseUrl("http://localhost:8081").build(); // URL do backend
+    }
+
     public List<LivroDTO> listAllLivros() {
         Mono<List<LivroDTO>> listObj = this.webClient
                 .method(HttpMethod.GET)
-                .uri("livro/listall")
+                .uri("/Livro/listall")
                 .retrieve()
                 .bodyToFlux(LivroDTO.class)
                 .collectList();
@@ -30,7 +34,7 @@ public class LivroService {
     public boolean delete(Long id_livro) {
         Mono<LivroDTO> obj = this.webClient
                 .method(HttpMethod.DELETE)
-                .uri("livro/{id}", id_livro)
+                .uri("/Livro/{id}", id_livro)
                 .retrieve()
                 .bodyToMono(LivroDTO.class);
 
@@ -44,7 +48,7 @@ public class LivroService {
     public boolean salvarOuAtualizar(LivroDTO livroDTO) {
         Mono<LivroDTO> obj = this.webClient
                 .method(HttpMethod.POST)
-                .uri("livro", livroDTO)
+                .uri("/Livro", livroDTO)
                 .bodyValue(livroDTO)
                 .retrieve()
                 .bodyToMono(LivroDTO.class);
@@ -59,7 +63,7 @@ public class LivroService {
     public LivroDTO getById(Long id_livro) {
         Mono<LivroDTO> monoObj = this.webClient
                 .method(HttpMethod.GET)
-                .uri("livro/getById/{id}", id_livro) // Path variable
+                .uri("/Livro/getById/{id}", id_livro) // Path variable
                 .retrieve()
                 .bodyToMono(LivroDTO.class); // Retorna um Mono<LivroDTO>
 
