@@ -34,7 +34,7 @@ public class LivroService {
     public boolean delete(Long id_livro) {
         Mono<LivroDTO> obj = this.webClient
                 .method(HttpMethod.DELETE)
-                .uri("/Livro/{id}", id_livro)
+                .uri("/Livro/deleteLivro/{id_livro}", id_livro)
                 .retrieve()
                 .bodyToMono(LivroDTO.class);
 

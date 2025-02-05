@@ -9,8 +9,8 @@ import lombok.Data;
 
 @Data
 public class LivroDTO implements Serializable {
-	private Long id_livro;
-	private String titulo;
+    private Long id_livro;
+    private String titulo;
     private String autor;
     private String editora;
     private Integer ano_publicacao;
@@ -20,7 +20,6 @@ public class LivroDTO implements Serializable {
     private String sinopse;
     private String idioma;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime  data_cadastro;
+    private LocalDateTime data_cadastro;
     private Double preco;
 }
-
