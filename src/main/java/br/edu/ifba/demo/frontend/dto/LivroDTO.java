@@ -14,7 +14,7 @@ public class LivroDTO implements Serializable {
     private String autor;
     private String editora;
     private Integer ano_publicacao;
-    private String genero;
+    private GeneroDTO genero;
     private Integer isbn;
     private Integer num_paginas;
     private String sinopse;

@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import br.edu.ifba.demo.frontend.dto.GeneroDTO;
 import br.edu.ifba.demo.frontend.dto.LivroDTO;
 import reactor.core.publisher.Mono;
 
@@ -16,7 +17,7 @@ public class LivroService {
     private WebClient webClient;
 
     public LivroService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8081").build(); // URL do backend
+        this.webClient = webClientBuilder.baseUrl("http://localhost:8081").build();
     }
 
     public List<LivroDTO> listAllLivros() {
@@ -28,6 +29,18 @@ public class LivroService {
                 .collectList();
 
         List<LivroDTO> list = listObj.block();
+        return list;
+    }
+
+    public List<GeneroDTO> listAllGeneros() {
+        Mono<List<GeneroDTO>> listObj = this.webClient
+                .method(HttpMethod.GET)
+                .uri("/Genero/listall")
+                .retrieve()
+                .bodyToFlux(GeneroDTO.class)
+                .collectList();
+
+        List<GeneroDTO> list = listObj.block();
         return list;
     }
 
@@ -48,7 +61,7 @@ public class LivroService {
     public boolean salvarOuAtualizar(LivroDTO livroDTO) {
         Mono<LivroDTO> obj = this.webClient
                 .method(HttpMethod.POST)
-                .uri("/Livro", livroDTO)
+                .uri("/Livro")
                 .bodyValue(livroDTO)
                 .retrieve()
                 .bodyToMono(LivroDTO.class);
@@ -63,13 +76,11 @@ public class LivroService {
     public LivroDTO getById(Long id_livro) {
         Mono<LivroDTO> monoObj = this.webClient
                 .method(HttpMethod.GET)
-                .uri("/Livro/getById/{id}", id_livro) // Path variable
+                .uri("/Livro/getById/{id}", id_livro)
                 .retrieve()
-                .bodyToMono(LivroDTO.class); // Retorna um Mono<LivroDTO>
+                .bodyToMono(LivroDTO.class);
 
-        // Converte a chamada reativa em chamada bloqueante (sincronamente):
         LivroDTO livro = monoObj.block();
         return livro;
     }
-
 }
